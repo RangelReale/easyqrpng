@@ -15,10 +15,11 @@ using namespace cimg_library;
 class easyqrpngImpl
 {
 public:
-	easyqrpngImpl() : targetWidth(100), qrcode(NULL), error(EASYQRPNGERR_OK) {}
+	easyqrpngImpl() : targetWidth(100), margin(0), qrcode(NULL), error(EASYQRPNGERR_OK) {}
 	~easyqrpngImpl() { freeImpl(); }
 
 	int targetWidth;
+	int margin;
 	QRcode* qrcode;
 	easyqrpng_error_t error;
 
@@ -51,6 +52,16 @@ void easyqrpng::setTargetWidth(int width)
 int easyqrpng::getTargetWidth() const
 {
 	return _impl->targetWidth;
+}
+
+void easyqrpng::setMargin(int margin)
+{
+	_impl->margin = margin;
+}
+
+int easyqrpng::getMargin() const
+{
+	return _impl->margin;
 }
 
 easyqrpng_error_t easyqrpng::encode(const char *data)
@@ -86,11 +97,12 @@ easyqrpng_error_t easyqrpng::save(std::ostream &output)
 		return setError(EASYQRPNGERR_NOT_ENCODED);
 
 	int width = _impl->qrcode->width;
+	int margin = _impl->margin;
 	int size = _impl->targetWidth / width;
 	if (size < 1)
 		size = 1;
 
-	CImg<unsigned char> cimage(width*size, width*size, 1, 4, 0);
+	CImg<unsigned char> cimage(width*size + margin*2, width*size + margin*2, 1, 4, 255);
 
 	const unsigned char colWhite[] = { 255, 255, 255 };
 	const unsigned char colBlack[] = { 0, 0, 0 };
@@ -99,7 +111,7 @@ easyqrpng_error_t easyqrpng::save(std::ostream &output)
 	for(int y=0; y<width; y++) {
 		for(int x=0; x<width; x++) {
 			const unsigned char *cl = (*p&1) ? &colBlack[0] : &colWhite[0];
-			cimage.draw_rectangle(x*size, y*size, x*size+size, y*size+size, cl);
+			cimage.draw_rectangle(margin + x*size, margin + y*size, margin + x*size+size, margin + y*size+size, cl);
 			p++;
 		}
 	}

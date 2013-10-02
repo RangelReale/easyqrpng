@@ -6,6 +6,7 @@ int main(int argc, char* argv[])
 {
 	easyqrpng p;
 	p.setTargetWidth(500);
+	p.setMargin(10);
 
 	if (p.encode("Encode me in a test")!=EASYQRPNGERR_OK)
 	{

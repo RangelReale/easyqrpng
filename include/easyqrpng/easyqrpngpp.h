@@ -17,6 +17,9 @@ public:
 	void setTargetWidth(int width);
 	int getTargetWidth() const;
 
+	void setMargin(int margin);
+	int getMargin() const;
+
 	easyqrpng_error_t encode(const char *data);
 	easyqrpng_error_t encode(const std::string &data);
 
