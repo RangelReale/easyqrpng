@@ -102,10 +102,11 @@ easyqrpng_error_t easyqrpng::save(std::ostream &output)
 	if (size < 1)
 		size = 1;
 
-	CImg<unsigned char> cimage(width*size + margin*2, width*size + margin*2, 1, 4, 255);
-
 	const unsigned char colWhite[] = { 255, 255, 255 };
 	const unsigned char colBlack[] = { 0, 0, 0 };
+	
+	CImg<unsigned char> cimage(width*size + margin*2, width*size + margin*2, 1, 3);
+	cimage.draw_rectangle(0, 0, cimage.width(), cimage.height(), colWhite);
 
 	unsigned char *p = _impl->qrcode->data;
 	for(int y=0; y<width; y++) {
@@ -121,7 +122,7 @@ easyqrpng_error_t easyqrpng::save(std::ostream &output)
 
 	unsigned char* out;
 	size_t outsize;
-	unsigned error = lodepng_encode32(&out, &outsize, cimageinter.data(), cimage.width(), cimage.height());
+	unsigned error = lodepng_encode24(&out, &outsize, cimageinter.data(), cimage.width(), cimage.height());
 	if (error)
 		return setError(EASYQRPNGERR_ENCODEPNG_ERROR);
 

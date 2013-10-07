@@ -14,3 +14,5 @@ buildrel/
 *.lai
 *.la
 *.a
+/.kdev4/easyqrpng.kdev4
+/easyqrpng.kdev4
