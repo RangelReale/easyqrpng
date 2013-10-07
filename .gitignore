@@ -1,4 +1,5 @@
 build/
+buildrel/
 
 # Compiled Object files
 *.slo

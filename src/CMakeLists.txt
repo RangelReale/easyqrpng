@@ -15,11 +15,5 @@ SET(INCS
 ADD_LIBRARY(easyqrpng SHARED ${SRCS} ${INCS} )
 ADD_LIBRARY(easyqrpngstatic STATIC ${SRCS} ${INCS} )
 
-TARGET_LINK_LIBRARIES ( easyqrpng ${QREncodeWin_LIBRARY} )
+TARGET_LINK_LIBRARIES ( easyqrpng ${QRENCODE_LIBRARY} )
 
-#if (WIN32)
-#TARGET_LINK_LIBRARIES ( mileversion version )
-#endif()
-#IF("${CMAKE_SYSTEM}" MATCHES "Linux")
-#TARGET_LINK_LIBRARIES ( mileversion ${LIBELF_LIBRARIES} )
-#ENDIF()
